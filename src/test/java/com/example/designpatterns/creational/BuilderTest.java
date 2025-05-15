@@ -2,14 +2,17 @@ package com.example.designpatterns.creational;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpRequest;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
- * date: 2025-05-08
- * tags: java, design patterns, creational, builder
+ * date: 2025-05-08 tags: java, design patterns, creational, builder
  */
 class BuilderTest {
 
@@ -165,5 +168,30 @@ class BuilderTest {
         assertThat(emptyMessage.getErrorCode()).isNull();
         assertThat(emptyMessage.getMessage()).isNull();
         assertThat(emptyMessage.getErrorDetails()).isEmpty();
+    }
+
+    @Test
+    public void testStringBuilder() {
+        StringBuilder sb = new StringBuilder("hoge");
+        sb.append("fuga");
+        assertThat(sb.toString()).isEqualTo("hogefuga");
+        sb.setLength(7);
+        assertThat(sb.toString()).isEqualTo("hogefug");
+        sb.setCharAt(0, 'H');
+        assertThat(sb.toString()).isEqualTo("Hogefug");
+    }
+
+    @Test
+    public void testHttpRequestBuilder() throws URISyntaxException {
+        URI uri = new URI("https://example.com/get");
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(uri)
+                .header("hoge", "fuga")
+                .timeout(Duration.ofSeconds(10L))
+                .build();
+        assertThat(request.uri().toString()).isEqualTo(uri.toString());
+        assertThat(request.timeout().get().getSeconds()).isEqualTo(10L);
+        assertThat(request.headers().firstValue("hoge").get()).isEqualTo("fuga");
     }
 }

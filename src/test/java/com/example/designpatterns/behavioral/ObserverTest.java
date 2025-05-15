@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 
 /**
  * date: 2025-05-15<br>
- * tags: java, design patterns, behavioral, chain of responsibility
+ * tags: java, design patterns, behavioral, observer
  */
-class ChainOfResponsibilityTest {
+class ObserverTest {
 
     @Test
     public void test() {
