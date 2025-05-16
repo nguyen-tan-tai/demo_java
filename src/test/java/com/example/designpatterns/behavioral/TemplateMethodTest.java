@@ -31,11 +31,6 @@ class TemplateMethodTest {
         public abstract void doExtract();
 
         @Override
-        public void doTransfer() {
-            result.add("Transfered");
-        }
-
-        @Override
         public void doLoad() {
             result.add("Loaded");
         }
@@ -52,13 +47,18 @@ class TemplateMethodTest {
 
         @Override
         public void doExtract() {
-            result.add("GoogleExtract");
+            result.add("GoogleExtracted");
+        }
+
+        @Override
+        public void doTransfer() {
+            result.add("GoogleTransfered");
         }
     }
 
     @Test
     public void test() {
         List<String> result = new GoogleAdsEtl().doEtl();
-        assertThat(result).hasSize(3).containsExactly("GoogleExtract", "Transfered", "Loaded");
+        assertThat(result).hasSize(3).containsExactly("GoogleExtracted", "GoogleTransfered", "Loaded");
     }
 }

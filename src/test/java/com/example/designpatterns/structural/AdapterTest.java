@@ -1,7 +1,5 @@
 package com.example.designpatterns.structural;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -9,8 +7,28 @@ import org.junit.jupiter.api.Test;
  */
 class AdapterTest {
 
+    interface Printer {
+        void print();
+    }
+
+    class LegacyPrinter {
+        void printDocument() {
+            System.out.println("Legacy Printer is printing a document.");
+        }
+    }
+
+    class PrinterAdapter implements Printer {
+
+        private LegacyPrinter legacyPrinter;
+
+        public void print() {
+            legacyPrinter.printDocument();
+        }
+    }
+
     @Test
     public void test() {
-        fail("No test");
+        PrinterAdapter adapter = new PrinterAdapter();
+        adapter.print();
     }
 }
