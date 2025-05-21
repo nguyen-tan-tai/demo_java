@@ -2,121 +2,127 @@ package com.example.challenges;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
  * date: 2025-05-01
- * tags: java, algorithm, project euler, problem 1, multiple of 3 and 5
+ * tags: java, algorithm, matrix rotation, recursive
  */
 class C0001_MatrixRotationTest {
 
     /**
-     * Given value = 100
-     * s3: 3 -> 99 e.g. 3, 6, 9, 12, 15, 18, ..., 94, 87, 90, 93, 96, 99 -> 33 numbers
-     * s5: 5 -> 95 e.g. 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95 -> 19 numbers
-     * s15: 15 -> 95 e.g. 15, 30, 45, 60, 75, 90 -> 6 numbers
-     * 
-     * s3 = (3 + 99) * 33 / 2
-     * s3 = 99 * (99 + 1) * 3 / 2
-     * 
-     * s5 = (5 + 95) * 19 / 2
-     * s5 = 19 * (19 + 1) * 5 / 2
-     * 
-     * s15 = (15 + 90) * 6 / 2
-     * s15 = 6 * (6 + 1) * 15 / 2
-     * 
-     * sum = s3 + s5 - s15
-     * 
-     * @param value
-     * @return sum
+     * 1    2    3    4
+     * 5    6    7    8
+     * 9   10   11   12
+     * 13  14   15   16
+     *
+     * @param matrix
+     * @param rotation
      */
-    public long calculateSumOfMultipleOf3And5(int num) {
-        long sumOfMultipleOf3 = sumOfMultipleStep(num, 3);
-        long sumOfMultipleOf5 = sumOfMultipleStep(num, 5);
-        long sumOfMultipleOf15 = sumOfMultipleStep(num, 15);
-        return sumOfMultipleOf3 + sumOfMultipleOf5 - sumOfMultipleOf15;
-    }
-
-    public long countOfMultipleStep(int endInclusive, int step) {
-        return endInclusive / step;
+    public static void matrixRotation(int[][] matrix, int rotation) {
+        int rowCnt = matrix.length;
+        int colCnt = matrix[0].length;
+        int boundCnt = Math.min(rowCnt, colCnt) / 2;
+        for (int boundIndex = 0; boundIndex < boundCnt; boundIndex++) {
+            rotateBound(matrix, boundIndex, rotation);
+        }
     }
 
     /**
      * 
-     * @param endInclusive
-     * @param step
-     * @return n * (n + 1) * step / 2
+     * Imagine boundary index 0 -> 2
+     * 0 0 0 0 0 0
+     * 0 1 1 1 1 0
+     * 0 1 2 2 1 0
+     * 0 1 1 1 1 0
+     * 0 0 0 0 0 0
+     * 
+     * @param matrix
+     * @param boundIndex
+     * @param rotation
      */
-    public long sumOfMultipleStep(int endInclusive, int step) {
-        long count = this.countOfMultipleStep(endInclusive, step);
-        return count * (count + 1) * step / 2;
-    }
-
-    @Test
-    public void testCountOfMultipleStep() {
-        assertThat(countOfMultipleStep(8, 3)).isEqualTo(2L);
-        assertThat(countOfMultipleStep(9, 3)).isEqualTo(3L);
-        assertThat(countOfMultipleStep(10, 3)).isEqualTo(3L);
-        assertThat(countOfMultipleStep(11, 3)).isEqualTo(3L);
-        assertThat(countOfMultipleStep(12, 3)).isEqualTo(4L);
-        assertThat(countOfMultipleStep(99, 3)).isEqualTo(33L);
-        assertThat(countOfMultipleStep(999, 3)).isEqualTo(333L);
-        assertThat(countOfMultipleStep(1000, 3)).isEqualTo(333L);
-        assertThat(countOfMultipleStep(1001, 3)).isEqualTo(333L);
-
-        assertThat(countOfMultipleStep(9, 5)).isEqualTo(1L);
-        assertThat(countOfMultipleStep(10, 5)).isEqualTo(2L);
-        assertThat(countOfMultipleStep(11, 5)).isEqualTo(2L);
-        assertThat(countOfMultipleStep(12, 5)).isEqualTo(2L);
-        assertThat(countOfMultipleStep(13, 5)).isEqualTo(2L);
-        assertThat(countOfMultipleStep(14, 5)).isEqualTo(2L);
-        assertThat(countOfMultipleStep(15, 5)).isEqualTo(3L);
-
-        assertThat(countOfMultipleStep(99, 5)).isEqualTo(19L);
-
-        assertThat(countOfMultipleStep(99, 15)).isEqualTo(6L);
-    }
-
-    @Test
-    public void testSumOfMultipleStep() {
-        assertThat(sumOfMultipleStep(8, 3)).isEqualTo(9L);
-        assertThat(sumOfMultipleStep(9, 3)).isEqualTo(18L);
-        assertThat(sumOfMultipleStep(10, 3)).isEqualTo(18L);
-        assertThat(sumOfMultipleStep(11, 3)).isEqualTo(18L);
-        assertThat(sumOfMultipleStep(12, 3)).isEqualTo(30L);
-        assertThat(sumOfMultipleStep(99, 3)).isEqualTo(1683L);
-
-        assertThat(sumOfMultipleStep(9, 5)).isEqualTo(5L);
-        assertThat(sumOfMultipleStep(10, 5)).isEqualTo(15L);
-        assertThat(sumOfMultipleStep(11, 5)).isEqualTo(15L);
-        assertThat(sumOfMultipleStep(12, 5)).isEqualTo(15L);
-        assertThat(sumOfMultipleStep(13, 5)).isEqualTo(15L);
-        assertThat(sumOfMultipleStep(14, 5)).isEqualTo(15L);
-        assertThat(sumOfMultipleStep(15, 5)).isEqualTo(30L);
-        assertThat(sumOfMultipleStep(99, 5)).isEqualTo(950L);
-
-        assertThat(sumOfMultipleStep(99, 15)).isEqualTo(315L);
+    public static void rotateBound(int[][] matrix, int boundIndex, int rotation) {
+        int rowCnt = matrix.length;
+        int colCnt = matrix[0].length;
+        List<Integer> boundList = new ArrayList<>();
+        for (int j = boundIndex; j < colCnt - boundIndex; j++) {
+            boundList.add(matrix[boundIndex][j]);
+        }
+        for (int j = boundIndex + 1; j < rowCnt - boundIndex - 1; j++) {
+            boundList.add(matrix[j][colCnt - boundIndex - 1]);
+        }
+        for (int j = colCnt - boundIndex - 1; j > boundIndex - 1; j--) {
+            boundList.add(matrix[rowCnt - boundIndex - 1][j]);
+        }
+        for (int j = rowCnt - boundIndex - 2; j >= boundIndex + 1; j--) {
+            boundList.add(matrix[j][boundIndex]);
+        }
+        int boundarySize = boundList.size();
+        if (boundarySize == 0) {
+            return; // Nothing to do
+        }
+        int optimizedRotations = rotation % boundarySize; // reduce unnecessary loop
+        List<Integer> rotatedBoundList = new ArrayList<>(boundList.subList(optimizedRotations, boundarySize));
+        rotatedBoundList.addAll(boundList.subList(0, optimizedRotations));
+        int index = 0;
+        for (int j = boundIndex; j < colCnt - boundIndex; j++) {
+            matrix[boundIndex][j] = rotatedBoundList.get(index++);
+        }
+        for (int j = boundIndex + 1; j < rowCnt - boundIndex - 1; j++) {
+            matrix[j][colCnt - boundIndex - 1] = rotatedBoundList.get(index++);
+        }
+        for (int j = colCnt - boundIndex - 1; j > boundIndex - 1; j--) {
+            matrix[rowCnt - boundIndex - 1][j] = rotatedBoundList.get(index++);
+        }
+        for (int j = rowCnt - boundIndex - 2; j >= boundIndex + 1; j--) {
+            matrix[j][boundIndex] = rotatedBoundList.get(index++);
+        }
     }
 
     @Test
     public void testCalculateSumOfMultipleOf3And5() {
-        assertThat(calculateSumOfMultipleOf3And5(9)).isEqualTo(23L);
-        assertThat(calculateSumOfMultipleOf3And5(10)).isEqualTo(33L);
-        assertThat(calculateSumOfMultipleOf3And5(11)).isEqualTo(33L);
-        assertThat(calculateSumOfMultipleOf3And5(12)).isEqualTo(45L);
-        assertThat(calculateSumOfMultipleOf3And5(13)).isEqualTo(45L);
-        assertThat(calculateSumOfMultipleOf3And5(14)).isEqualTo(45L);
-        assertThat(calculateSumOfMultipleOf3And5(15)).isEqualTo(60L);
-        assertThat(calculateSumOfMultipleOf3And5(16)).isEqualTo(60L);
-        assertThat(calculateSumOfMultipleOf3And5(99)).isEqualTo(2318L);
-        assertThat(calculateSumOfMultipleOf3And5(100)).isEqualTo(2418L);
-        assertThat(calculateSumOfMultipleOf3And5(999)).isEqualTo(233168L);
-        assertThat(calculateSumOfMultipleOf3And5(1000)).isEqualTo(234168L);
-        assertThat(calculateSumOfMultipleOf3And5(9999)).isEqualTo(23331668L);
-        assertThat(calculateSumOfMultipleOf3And5(10000)).isEqualTo(23341668L);
-        assertThat(calculateSumOfMultipleOf3And5(100000)).isEqualTo(2333416668L);
-        assertThat(calculateSumOfMultipleOf3And5(1000000)).isEqualTo(233334166668L);
-        assertThat(calculateSumOfMultipleOf3And5(10000000)).isEqualTo(23333341666668L);
-        assertThat(calculateSumOfMultipleOf3And5(100000000)).isEqualTo(2333333416666668L);
+        int[][] m44 = new int[][] {
+                {1, 2, 3, 4},
+                {5, 6, 7, 8},
+                {9, 10, 11, 12},
+                {13, 14, 15, 16}};
+
+        matrixRotation(m44, 1);
+        assertThat(m44).isEqualTo(new int[][] {
+                {2, 3, 4, 8},
+                {1, 7, 11, 12},
+                {5, 6, 10, 16},
+                {9, 13, 14, 15}});
+        matrixRotation(m44, 1);
+        assertThat(m44).isEqualTo(new int[][] {
+                {3, 4, 8, 12},
+                {2, 11, 10, 16},
+                {1, 7, 6, 15},
+                {5, 9, 13, 14}});
+
+        int[][] m22 = new int[][] {
+                {1, 2},
+                {3, 4}};
+        matrixRotation(m22, 1);
+        assertThat(m22).isEqualTo(new int[][] {
+                {2, 4},
+                {1, 3}});
+        m22 = new int[][] {
+                {1, 2},
+                {3, 4}};
+        matrixRotation(m22, 2);
+        assertThat(m22).isEqualTo(new int[][] {
+                {4, 3},
+                {2, 1}
+        });
+        m22 = new int[][] {
+                {1, 2},
+                {3, 4}};
+        matrixRotation(m22, 4);
+        assertThat(m22).isEqualTo(new int[][] {
+                {1, 2},
+                {3, 4}});
     }
 }
