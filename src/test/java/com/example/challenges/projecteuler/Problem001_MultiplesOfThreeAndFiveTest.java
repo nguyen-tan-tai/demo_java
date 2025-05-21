@@ -1,4 +1,4 @@
-package com.example.algorithm.projecteuler;
+package com.example.challenges.projecteuler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
