@@ -1,4 +1,4 @@
-package com.example.collection;
+package com.example.collection.list;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
