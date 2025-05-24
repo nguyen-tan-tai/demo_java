@@ -13,10 +13,10 @@ import org.junit.jupiter.api.Test;
 class C0001_MatrixRotationTest {
 
     /**
-     * 1    2    3    4
-     * 5    6    7    8
-     * 9   10   11   12
-     * 13  14   15   16
+     * 1 2 3 4
+     * 5 6 7 8
+     * 9 10 11 12
+     * 13 14 15 16
      *
      * @param matrix
      * @param rotation
@@ -82,7 +82,7 @@ class C0001_MatrixRotationTest {
     }
 
     @Test
-    public void testCalculateSumOfMultipleOf3And5() {
+    public void test() {
         int[][] m44 = new int[][] {
                 {1, 2, 3, 4},
                 {5, 6, 7, 8},
