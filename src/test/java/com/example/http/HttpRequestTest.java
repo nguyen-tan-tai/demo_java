@@ -15,6 +15,43 @@ import org.junit.jupiter.api.Test;
  */
 class HttpRequestTest {
 
+    public String get(String url) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(url))
+                    .header("Content-Type", "application/json;charset=UTF-8")
+                    .GET()
+                    .build();
+            HttpResponse<String> response = HttpClient.newBuilder()
+                    .followRedirects(HttpClient.Redirect.NEVER)
+                    .build()
+                    .send(request, BodyHandlers.ofString());
+            return response.body();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
+    public String post(String url, String data) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(url))
+                    .header("Content-Type", "application/json;charset=UTF-8")
+                    .POST(HttpRequest.BodyPublishers.ofString(data))
+                    .build();
+            HttpResponse<String> response = HttpClient.newBuilder()
+                    .followRedirects(HttpClient.Redirect.NEVER)
+                    .build()
+                    .send(request, BodyHandlers.ofString());
+            return response.body();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     public void testGet() throws URISyntaxException, IOException, InterruptedException {
         URI uri = new URI("https://postman-echo.com/post");
